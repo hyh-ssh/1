@@ -1,0 +1,27 @@
+# Runtime-only image for a Docker host that cannot reach npm or the Go proxy.
+#
+# Why this exists: docs/DEPLOY_172.md targets a host whose DNS resolver only
+# answers for a short allowlist and whose reachable container-registry mirrors
+# all refuse anonymous pulls. Neither the multi-stage Dockerfile nor an image
+# pull works there, so the gateway binary is cross-compiled on a machine with
+# working network access and this file only assembles the runtime layer.
+#
+# It mirrors the `backend` stage of ../Dockerfile one for one: same alpine base,
+# same unprivileged `app` user, same readiness healthcheck. The compile steps
+# are replaced by a COPY, and the CA bundle plus the business timezone are
+# copied from the target host instead of installed with apk (alpine ships
+# neither and its package CDN is unreachable there too).
+#
+# The final stage must stay named `backend`: docker-compose.yml passes
+# `target: backend`, and docker-compose.override.yml only swaps the dockerfile.
+FROM alpine:3.20 AS backend
+
+RUN addgroup -S app && adduser -S -G app app
+COPY ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY zoneinfo/ /usr/share/zoneinfo/
+COPY server /usr/local/bin/server
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+USER app
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 CMD wget -q -O /dev/null http://127.0.0.1:8080/readyz || exit 1
+ENTRYPOINT ["/usr/local/bin/server"]

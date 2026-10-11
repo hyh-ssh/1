@@ -1,0 +1,21 @@
+# Deployment overlay for a host that can reach no container registry.
+#
+# Copy this next to docker-compose.yml in the deployment directory on the
+# target (the deploy script does that for you). Docker Compose merges an
+# `docker-compose.override.yml` sitting beside the main file automatically, so
+# the operator only ever runs `docker compose up -d --build` there.
+#
+# Keep this file out of the repository root: at the root it would silently
+# apply to ordinary `docker compose up` runs during development, where the
+# `server` binary and the loaded base images do not exist.
+services:
+  postgres:
+    # The image is loaded from an archive; pulling is impossible and must fail
+    # loudly instead of hanging on an unreachable registry.
+    pull_policy: never
+
+  backend:
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: Dockerfile.runtime

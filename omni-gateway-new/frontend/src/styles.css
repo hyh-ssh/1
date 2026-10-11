@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+/* 亮色主题设计令牌：页面上的颜色都取自这里，避免零散的深色值。 */
+:root{
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --surface-muted:#f8fafc;
+  --surface-sunken:#eef2f9;
+  --border:#e3e8f1;
+  --border-strong:#d2dae7;
+  --text:#1b2436;
+  --text-muted:#5c6b85;
+  --text-faint:#8494ab;
+  --accent:#3563e9;
+  --accent-hover:#2a53cf;
+  --accent-soft:#eaf0ff;
+  --success:#0f7a52;
+  --success-soft:#e7f7f0;
+  --success-border:#b7e3d1;
+  --danger:#b3232f;
+  --danger-soft:#fdecee;
+  --danger-border:#f0c3c8;
+  --shadow:0 1px 2px rgba(21,37,66,.04),0 10px 28px rgba(21,37,66,.06);
+  --shadow-strong:0 2px 6px rgba(21,37,66,.06),0 18px 44px rgba(21,37,66,.10);
+  font-family:'DM Sans',system-ui,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  color-scheme:light;
+  font-synthesis:none
+}
+*{box-sizing:border-box}
+body{margin:0;min-width:320px;background:var(--bg);color:var(--text)}
+
+/* 控制台框架 */
+.shell{display:flex;min-height:100vh}
+aside{width:260px;background:var(--surface);border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;font-size:20px}
+.brand strong{display:block;font:600 15px 'Space Grotesk'}
+.brand small{display:block;color:var(--text-faint);font-size:11px;margin-top:2px}
+.side-brand{padding:0 8px 32px}
+nav{display:grid;gap:5px}
+nav button,.logout{border:0;background:transparent;color:var(--text-muted);text-align:left;padding:12px;border-radius:8px;cursor:pointer;font:500 13px inherit}
+nav button span{display:inline-block;width:25px;color:var(--text-faint);font-size:17px;vertical-align:middle}
+nav button:hover{background:var(--surface-sunken);color:var(--text)}
+nav button.active{background:var(--accent-soft);color:var(--accent-hover)}
+nav button.active span{color:var(--accent)}
+.side-foot{margin-top:auto;color:var(--text-faint);font-size:12px;line-height:24px;padding:12px 8px}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:7px}
+.logout{padding:4px 0;color:var(--text-muted)}
+.logout:hover{color:var(--accent)}
+main{flex:1;min-width:0}
+header{height:93px;background:var(--surface);border-bottom:1px solid var(--border);padding:22px 42px;display:flex;justify-content:space-between;align-items:center}
+h1,h2,h3,p{margin:0}
+header h1{font:600 24px 'Space Grotesk';margin-top:3px}
+.eyebrow{font-size:10px;letter-spacing:1.6px;color:var(--text-faint);font-weight:700}
+.header-actions{display:flex;align-items:center;gap:14px}
+.pill{font-size:12px;color:var(--success);background:var(--success-soft);border:1px solid var(--success-border);padding:7px 11px;border-radius:20px}
+.avatar{border:0;background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;font-weight:700}
+.content{padding:34px 42px;max-width:1400px}
+.welcome,.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.welcome h2,.toolbar h2{font:600 19px 'Space Grotesk'}
+.muted{color:var(--text-muted);font-size:13px;margin-top:6px}
+
+/* 卡片与面板 */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+.card,.panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow)}
+.card{padding:20px}
+.card-label{display:block;color:var(--text-muted);font-size:12px;margin-bottom:15px}
+.card strong{display:block;font:600 27px 'Space Grotesk';color:var(--text)}
+.card small{display:block;color:var(--success);font-size:11px;margin-top:10px}
+.grid-two{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+.panel{padding:22px}
+.panel h3{font:600 15px 'Space Grotesk'}
+.empty{text-align:center;padding:58px 20px;color:var(--text-muted)}
+.empty span{display:block;font-size:28px;color:var(--border-strong);margin-bottom:12px}
+.empty p{color:var(--text-muted);font-size:14px}
+.empty small{display:block;max-width:340px;margin:7px auto 0;font-size:12px;line-height:18px}
+.status-list{list-style:none;padding:10px 0 0;margin:0}
+.status-list li{padding:14px 0;border-bottom:1px solid var(--border);color:var(--text-muted);font-size:13px}
+.status-list b{float:right;color:var(--success);font-weight:500}
+
+/* 按钮、表格与提示 */
+.secondary,.primary{border:1px solid var(--border-strong);border-radius:7px;padding:9px 14px;background:var(--surface);color:var(--text);font:500 12px inherit;cursor:pointer}
+.primary{width:100%;background:var(--accent);border-color:var(--accent);color:#fff;padding:12px}
+.primary:hover:not(:disabled){background:var(--accent-hover);border-color:var(--accent-hover)}
+.secondary:hover:not(:disabled){background:var(--surface-sunken)}
+button:disabled{opacity:.55;cursor:default}
+.table-panel{padding:0;overflow:hidden}
+.table-head,.table-row{display:grid;grid-template-columns:1.2fr .6fr 1.4fr auto;gap:16px;padding:15px 22px;align-items:center}
+.table-head{background:var(--surface-muted);color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.table-row{border-top:1px solid var(--border);font-size:13px}
+.tag{display:inline-block;color:var(--success);background:var(--success-soft);border:1px solid var(--success-border);padding:4px 8px;border-radius:12px;font-size:11px;width:max-content}
+.tag.inactive{color:var(--text-muted);background:var(--surface-sunken);border-color:var(--border-strong)}
+/* 只读表格：受限视图的表没有操作列，用三列布局避免右侧留白。 */
+.table.readonly .table-head,.table.readonly .table-row{grid-template-columns:1.2fr .6fr 1.6fr}
+/* 「我的 API 密钥」比通用表格多一列「最后使用」，需要自己的列宽；操作列固定在末尾。 */
+.table.member-keys .table-head,.table.member-keys .table-row{grid-template-columns:1.1fr .5fr 1.7fr 1fr auto}
+/* .table-panel 的 padding 是 0，表内标题需要自己的内边距。 */
+.panel-title{padding:18px 22px 0}
+/* 表格面板里带操作按钮的标题行（例如「我的 API 密钥」加上新建按钮）。 */
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 22px 12px}
+.panel-head h3{font:600 15px 'Space Grotesk'}
+/* .table-panel 的 padding 是 0，表内表单区要自己补内边距。 */
+.panel-section{padding:0 22px 20px}
+.panel-section .form-grid{margin:14px 0}
+.alert{background:var(--danger-soft);color:var(--danger);border:1px solid var(--danger-border);padding:11px 14px;border-radius:7px;margin-bottom:20px;font-size:13px}
+.alert button{float:right;background:transparent;color:inherit;border:0;text-decoration:underline;cursor:pointer}
+footer{color:var(--text-faint);font-size:11px;padding:24px 42px;border-top:1px solid var(--border)}
+footer a{color:var(--accent)}
+.center{min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--text-muted)}
+
+/* 登录页：左侧品牌与能力介绍，右侧登录表单。 */
+.login-page{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);background:var(--bg)}
+.login-hero{display:flex;flex-direction:column;gap:20px;padding:56px 60px;background:linear-gradient(150deg,#e8efff 0%,#f5f8ff 52%,#edf3ff 100%);border-right:1px solid var(--border)}
+.login-hero h1{font:600 34px/1.25 'Space Grotesk';margin-top:20px;color:var(--text)}
+.login-hero .tagline{color:var(--text-muted);font-size:15px;line-height:24px;max-width:34em}
+.hero-points{list-style:none;margin:0;padding:0;display:grid;gap:12px;max-width:36em}
+.hero-points li{display:flex;gap:13px;align-items:flex-start;background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:13px;line-height:20px;color:var(--text-muted)}
+.hero-points b{display:block;font:600 13px 'Space Grotesk';color:var(--text);margin-bottom:3px}
+.hero-points .point-icon{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--accent);font-size:16px}
+.hero-foot{margin-top:auto;padding-top:18px;color:var(--text-faint);font-size:12px;line-height:20px}
+.login-panel{display:grid;place-items:center;padding:44px 32px;background:var(--surface)}
+.login-card{width:min(390px,100%);background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:34px;box-shadow:var(--shadow-strong)}
+.login-card h1{font:600 25px 'Space Grotesk'}
+.login-card form{display:grid;gap:17px;margin-top:26px}
+/* OAuth 登录入口：分隔线与整页跳转按钮，视觉上从属于密码登录。 */
+.oauth-divider{display:flex;align-items:center;gap:12px;margin:20px 0 14px;color:var(--text-faint);font-size:12px}
+.oauth-divider::before,.oauth-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.oauth-button{display:block;text-align:center;text-decoration:none;border:1px solid var(--border-strong);border-radius:7px;padding:12px;background:var(--surface);color:var(--text);font:500 13px 'Space Grotesk';cursor:pointer}
+.oauth-button:hover{background:var(--surface-sunken)}
+
+/* 表单控件 */
+label{display:grid;gap:7px;color:var(--text-muted);font-size:12px}
+input{width:100%;padding:11px 12px;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font:14px inherit;outline:none}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(53,99,233,.14)}
+::placeholder{color:var(--text-faint)}
+input[type=checkbox]{accent-color:var(--accent)}
+.error{color:var(--danger);font-size:12px;margin-top:14px}
+.spinner{width:25px;height:25px;border:3px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toolbar-actions{display:flex;gap:10px;align-items:center}
+.row-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.danger{border-color:var(--danger-border);color:var(--danger)}
+.danger:hover:not(:disabled){background:var(--danger-soft)}
+.check{display:flex;align-items:center;gap:8px}
+.check input{width:auto}
+.compact{width:auto;padding:9px 13px}
+.form-panel{margin-bottom:18px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:17px 0}
+.form-grid .wide{grid-column:1/-1}
+select,textarea{width:100%;padding:11px 12px;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font:14px inherit}
+select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(53,99,233,.14)}
+textarea{min-height:82px;resize:vertical}
+.form-submit{max-width:160px}
+.notice{background:var(--success-soft);color:var(--success);border:1px solid var(--success-border);padding:11px 14px;border-radius:7px;margin-bottom:18px;font-size:13px}
+.notice code{display:block;color:var(--text);background:var(--surface-sunken);border:1px solid var(--border);padding:9px;margin-top:8px;word-break:break-all;border-radius:5px}
+
+/* 弹窗：受限视图的「新建密钥」与「密钥已创建」都用它，明文密钥就不会长期挂在提示条上。 */
+.modal-backdrop{position:fixed;inset:0;background:rgba(21,37,66,.45);display:flex;align-items:center;justify-content:center;padding:24px;z-index:50}
+.modal{width:min(460px,100%);max-height:calc(100vh - 48px);overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:var(--shadow-strong)}
+.modal h3{font:600 17px 'Space Grotesk'}
+.modal .form-grid{margin:16px 0 0}
+.modal .toolbar-actions{justify-content:flex-end;margin-top:18px}
+/* 明文密钥必须能整段选中复制，所以不禁用文本选择并允许换行。 */
+.secret-value{display:block;margin-top:14px;padding:11px 12px;background:var(--surface-sunken);border:1px solid var(--border);border-radius:7px;color:var(--text);font:13px ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;word-break:break-all;user-select:all}
+
+/* 响应式 */
+@media(max-width:1000px){
+  .login-page{grid-template-columns:1fr}
+  .login-hero{padding:36px 28px;gap:16px;border-right:0;border-bottom:1px solid var(--border)}
+  .login-hero h1{font-size:26px;margin-top:12px}
+  .hero-points{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .hero-foot{margin-top:6px}
+  .login-panel{padding:34px 20px 48px}
+}
+@media(max-width:850px){
+  aside{width:112px;flex-shrink:0;padding:18px 6px}
+  .side-brand div,nav button:not(.active)::after{display:none}
+  .side-brand{padding:0 8px 28px}
+  nav button{font-size:11px;text-align:center;padding:10px 3px}
+  nav button span{display:block;width:auto;font-size:20px;margin-bottom:4px}
+  .side-foot{font-size:0;padding:8px}
+  .side-foot .status-dot{margin:0}
+  .logout{font-size:12px}
+  .content{padding:20px 12px}
+  header{padding:18px 20px}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .grid-two{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .hero-points{display:none}
+  .login-hero{padding:26px 20px}
+  .login-hero h1{font-size:22px}
+  .login-hero .tagline{font-size:13px;line-height:21px}
+  .login-card{padding:26px 22px;border-radius:12px;box-shadow:var(--shadow)}
+}
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .wide{grid-column:auto}
+  .toolbar-actions{gap:6px}
+}
+@media(max-width:500px){
+  .cards{grid-template-columns:1fr}
+  .table-head,.table-row{grid-template-columns:1fr .7fr;padding:13px}
+  .table-head span:nth-child(n+3),.table-row span:nth-child(n+3){display:none}
+  /* 只读表格的三列在窄屏同样收起为两列，否则第 3 列会成为空格子。 */
+  .table.readonly .table-head,.table.readonly .table-row{grid-template-columns:1fr .7fr}
+  /* 密钥表的操作按钮不能跟着详情列一起隐藏，否则窄屏下无法停用或删除。 */
+  /* 密钥表的操作按钮不能跟着详情列一起隐藏，否则窄屏下无法停用或删除。 */
+  .table.member-keys .table-head,.table.member-keys .table-row{grid-template-columns:1fr auto}
+  .table.member-keys .table-head span:nth-child(3),.table.member-keys .table-row span:nth-child(3),
+  .table.member-keys .table-head span:nth-child(4),.table.member-keys .table-row span:nth-child(4){display:none}
+  .table.member-keys .table-head span:nth-child(5),.table.member-keys .table-row span:nth-child(5){display:flex}
+}
+
+/* 任务导航与会话入口：沿用亮色样式，长页导航独立滚动。 */
+.shell > aside{position:sticky;top:0;height:100dvh;flex:0 0 240px;overflow-y:auto}
+.nav-group{display:grid;gap:3px;margin-bottom:9px}
+.nav-group h2{padding:5px 12px;font-size:10px;font-weight:600;letter-spacing:.8px;color:var(--text-faint)}
+.nav-group button{width:100%;font-size:12px;padding:9px 12px}
+.side-brand{padding-bottom:20px}
+.side-foot{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.side-foot .logout{margin-left:auto}
+.page-title{display:flex;align-items:center;gap:12px}
+.nav-toggle{display:none}
+.account-entry{position:relative}
+.username-entry{max-width:220px;overflow-wrap:anywhere;color:var(--accent-hover)}
+.account-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:30;min-width:160px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:9px;box-shadow:var(--shadow-strong)}
+.account-menu button{display:block;width:100%;text-align:left;padding:11px;border:0;border-radius:5px;background:transparent;color:var(--text);cursor:pointer}
+.account-menu button:hover{background:var(--accent-soft)}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(53,99,233,.5);outline-offset:3px}
+.price-row{padding:17px 0;border-top:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.price-row:first-of-type{margin-top:18px}
+.price-row details{width:100%;font-size:13px}
+pre{max-width:100%;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:1100px){.shell > aside{flex-basis:200px;width:200px}.content{padding:24px}.shell header{padding:18px 24px}}
+@media(max-width:850px){
+  .shell > aside{width:200px;flex-basis:200px;padding:20px 12px}
+  .shell .side-brand div{display:block}
+  .shell nav button{text-align:left;font-size:12px;padding:9px 12px}
+  .shell .side-foot{font-size:12px;padding:12px 8px}
+}
+@media(max-width:700px){
+  .shell > aside{display:none;position:fixed;left:0;top:77px;height:calc(100dvh - 77px);z-index:35;width:min(300px,85vw);box-shadow:var(--shadow-strong)}
+  .shell > aside.mobile-open{display:flex}
+  .shell header{position:sticky;top:0;z-index:25;min-height:77px;height:auto;padding:12px 16px;gap:10px}
+  .shell header h1{font-size:18px}
+  .nav-toggle{display:inline-block}
+  .header-actions .pill{display:none}
+  .username-entry{max-width:130px;padding:8px 10px}
+  .content{padding:18px 12px}
+  .toolbar{align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .table-head,.table-row{grid-template-columns:1fr auto}
+  .table-row > span:nth-child(3){grid-column:1/-1}
+  .table-row > .row-actions{grid-column:1/-1;justify-content:flex-start;display:flex}
+  .table-row > span:nth-child(3){display:block}
+  footer{padding:18px 16px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

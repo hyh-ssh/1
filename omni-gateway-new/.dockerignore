@@ -1,0 +1,7 @@
+.git
+.gitignore
+.env
+frontend/node_modules
+frontend/dist
+backend/server
+**/*_test.go

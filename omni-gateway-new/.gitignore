@@ -1,0 +1,19 @@
+.env
+.DS_Store
+frontend/node_modules/
+frontend/dist/
+backend/server
+coverage/
+.playwright-cli/
+output/playwright/
+# Local PI agent session state (plan, goal contracts, scratch). See .pi/README.md.
+.pi/
+
+# Vue build output embedded into the Go binary. `make webui` fills this in;
+# the tracked .keep file keeps `//go:embed all:static` compilable on a fresh clone.
+backend/internal/httpapi/static/*
+!backend/internal/httpapi/static/.keep
+
+# Live API-key secrets and ids written by scripts/e2e/setup.py. The gateway
+# returns a secret only once, so this file is the harness's only copy.
+scripts/e2e/fixtures.json

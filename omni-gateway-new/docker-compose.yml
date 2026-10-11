@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-llm_gateway}
+      POSTGRES_USER: ${POSTGRES_USER:-gateway}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gateway_dev_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      target: backend
+    environment:
+      GATEWAY_LISTEN_ADDR: ":8080"
+      GATEWAY_DB_URL: ${GATEWAY_DB_URL:-postgres://${POSTGRES_USER:-gateway}:${POSTGRES_PASSWORD:-gateway_dev_password}@postgres:5432/${POSTGRES_DB:-llm_gateway}?sslmode=disable}
+      GATEWAY_MASTER_KEY: ${GATEWAY_MASTER_KEY:?set GATEWAY_MASTER_KEY in .env}
+      GATEWAY_PREVIOUS_MASTER_KEYS: ${GATEWAY_PREVIOUS_MASTER_KEYS:-}
+      GATEWAY_ADMIN_USER: ${GATEWAY_ADMIN_USER:-admin}
+      GATEWAY_ADMIN_PASSWORD: ${GATEWAY_ADMIN_PASSWORD:?set GATEWAY_ADMIN_PASSWORD in .env}
+      GATEWAY_OIDC_ISSUER: ${GATEWAY_OIDC_ISSUER:-}
+      GATEWAY_OIDC_CLIENT_ID: ${GATEWAY_OIDC_CLIENT_ID:-}
+      GATEWAY_OIDC_CLIENT_SECRET: ${GATEWAY_OIDC_CLIENT_SECRET:-}
+      GATEWAY_OIDC_REDIRECT_URL: ${GATEWAY_OIDC_REDIRECT_URL:-}
+      GATEWAY_OIDC_DISPLAY_NAME: ${GATEWAY_OIDC_DISPLAY_NAME:-企业账号}
+      GATEWAY_BUSINESS_TZ: ${GATEWAY_BUSINESS_TZ:-Asia/Shanghai}
+      GATEWAY_CONTENT_LOGGING: ${GATEWAY_CONTENT_LOGGING:-false}
+      GATEWAY_CONTENT_LOG_MAX_BYTES: ${GATEWAY_CONTENT_LOG_MAX_BYTES:-1048576}
+      GATEWAY_COOKIE_SECURE: ${GATEWAY_COOKIE_SECURE:-false}
+      GATEWAY_ALLOW_PRIVATE_UPSTREAMS: ${GATEWAY_ALLOW_PRIVATE_UPSTREAMS:-false}
+      GATEWAY_SHUTDOWN_TIMEOUT: ${GATEWAY_SHUTDOWN_TIMEOUT:-10s}
+      GATEWAY_SESSION_TTL: ${GATEWAY_SESSION_TTL:-24h}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    restart: unless-stopped
+
+  # 可选的开发预览。常规部署只使用 backend 服务，它内嵌编译好的 Vue 应用，
+  # 并从 8080 端口提供服务。
+  frontend:
+    profiles: ["frontend-preview"]
+    build:
+      context: .
+      target: frontend
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-4173}:4173"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
